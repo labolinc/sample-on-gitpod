@@ -1,0 +1,5 @@
+urls:
+  clientUrl: ${CLIENT_URL}
+logging:
+  level:
+    root: info

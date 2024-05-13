@@ -1,0 +1,50 @@
+image: gitpod/workspace-full
+
+tasks:
+  - name: SetUp Node
+    before: |
+      export API_URL=$(echo $GITPOD_WORKSPACE_URL | sed 's|https://|https://8080-|')
+      # INSTALL NODE 18
+      nvm install 18.17.1
+      nvm use default v18.17.1
+    init: |
+      cd client/nuxt
+      yes no | npm install
+    command: |
+      node -v
+  
+  - name: Setup Java
+    before: |
+      export CLIENT_URL=$(echo $GITPOD_WORKSPACE_URL | sed 's|https://|https://3000-|')
+      # EDIT SDKMAN CONFIG
+      sed -i '1,$s/sdkman_auto_answer=false/sdkman_auto_answer=true/' /home/gitpod/.sdkman/etc/config
+      # INSTALL JDK 17
+      sdk install java 17.0.10-amzn
+    init: |
+      ./gradlew
+    command:
+      java --version
+
+ports:
+  - port: 8080
+    onOpen: open-preview
+    visibility: public
+  - port: 3306
+    visibility: public
+  - port: 8000
+    onOpen: open-preview
+    visibility: public
+  - port: 3000
+    onOpen: open-preview
+    visibility: public
+vscode:
+  extensions:
+    - pivotal.vscode-spring-boot
+    - vscjava.vscode-java-pack
+
+jetbrains:
+  intellij:
+    plugins:
+      - com.haulmont.jpab
+
+
