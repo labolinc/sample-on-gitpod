@@ -41,9 +41,9 @@ public class SampleAuthenticatedUserController {
     @PostMapping
     public void addUser(@RequestBody UserDto userDto) {
         var userEntity = new UserEntity();
-        userEntity.setName(userDto.name());
-        userEntity.setEmail(userDto.email());
-        userEntity.setPassword(this.passwordEncoder.encode(userDto.password()));
+        userEntity.setName(userDto.getName());
+        userEntity.setEmail(userDto.getEmail());
+        userEntity.setPassword(this.passwordEncoder.encode(userDto.getPassword()));
 
         userRepository.save(userEntity);
     }
@@ -52,9 +52,9 @@ public class SampleAuthenticatedUserController {
     public void updateUser(@AuthenticationPrincipal CustomUserCredential userCredential, @RequestBody UserDto userDto) {
         var userEntity = new UserEntity();
         userEntity.setUserId(userCredential.getUserId());
-        userEntity.setName(userDto.name());
-        userEntity.setEmail(userDto.email());
-        userEntity.setPassword(this.passwordEncoder.encode(userDto.password()));
+        userEntity.setName(userDto.getName());
+        userEntity.setEmail(userDto.getName());
+        userEntity.setPassword(this.passwordEncoder.encode(userDto.getPassword()));
 
         userRepository.save(userEntity);
     }
@@ -64,6 +64,29 @@ public class SampleAuthenticatedUserController {
         userRepository.deleteById(userCredential.getUserId());
     }
 
-    public record UserViewModel(Long userId, String name, String email) {
+    public class UserViewModel {
+
+        private final long userId;
+        private final String name;
+        private final String email;
+
+        public UserViewModel(long userId ,String name, String email) {
+            this.userId = userId;
+            this.name = name;
+            this.email = email;
+        }
+
+        public long getUserId() {
+            return this.userId;
+        }
+
+        public String getName() {
+            return this.name;
+        }
+
+        public String getEmail() {
+            return this.email;
+        }
+
     }
 }
