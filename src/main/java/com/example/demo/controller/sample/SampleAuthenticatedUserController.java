@@ -30,7 +30,7 @@ public class SampleAuthenticatedUserController {
 
     @GetMapping
     public UserViewModel getLoggedInUser(@AuthenticationPrincipal CustomUserCredential userCredential) {
-        UserEntity userEntity = this.userRepository.findById(userCredential.getUserId()).orElseThrow(() -> new RuntimeException("ユーザーが見つかりませんでした"));
+        UserEntity userEntity = this.userRepository.findById(userCredential.getUserId()).orElseThrow(() -> new RuntimeException("ユーザーが見つかりませんでした")); 
         return new UserViewModel(
                 userEntity.getUserId(),
                 userEntity.getName(),
@@ -53,7 +53,7 @@ public class SampleAuthenticatedUserController {
         var userEntity = new UserEntity();
         userEntity.setUserId(userCredential.getUserId());
         userEntity.setName(userDto.getName());
-        userEntity.setEmail(userDto.getName());
+        userEntity.setEmail(userDto.getEmail());
         userEntity.setPassword(this.passwordEncoder.encode(userDto.getPassword()));
 
         userRepository.save(userEntity);
