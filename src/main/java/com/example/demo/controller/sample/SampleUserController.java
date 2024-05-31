@@ -20,7 +20,6 @@ public class SampleUserController {
 
     @GetMapping
     public List<UserEntity> getUsers() {
-        System.out.println("ねこ");
         return this.userRepository.findAll();
     }
 }
